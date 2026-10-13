@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gustum – Generador de Carteles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,900;1,900&family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&family=Inter:wght@500;700&family=Playfair+Display:ital,wght@1,600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-name">Gustum</span>
+    <span class="brand-sub"><span class="dash">– </span>Generador de Carteles</span>
+  </div>
+  <div class="save-status" id="saveStatus" aria-live="polite">Guardado ✓</div>
+</header>
+
+<main class="layout">
+  <section class="editor" id="editor" aria-label="Editar el menú"></section>
+
+  <aside class="preview" id="preview" aria-label="Vista previa y descarga">
+    <div class="preview-inner">
+      <div class="preview-head">
+        <h2 class="preview-title">Así se ve</h2>
+        <button class="btn btn-zoom" id="openViewer" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8M10.5 7.5v6M7.5 10.5h6"/></svg>
+          <span>Ver más grande</span>
+        </button>
+      </div>
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div class="warn" id="warn" hidden></div>
+      <div class="stage" id="stage" title="Toque para ver más grande"></div>
+      <div class="dl">
+        <button class="btn btn-primary btn-big" id="dlOne" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16" /></svg>
+          <span id="dlOneLabel">Descargar esta imagen</span>
+        </button>
+        <button class="btn btn-secondary btn-big" id="dlAll" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16" /></svg>
+          <span id="dlAllLabel">Descargar las 5 imágenes</span>
+        </button>
+      </div>
+      <p class="dl-note" id="dlNote">Preparando…</p>
+    </div>
+  </aside>
+</main>
+
+<button class="jump" id="jump" type="button">Ver y descargar imágenes ↓</button>
+
+<div class="modal" id="cropper" role="dialog" aria-modal="true" aria-labelledby="cropTitle" hidden>
+  <div class="modal-card">
+    <h2 class="modal-title" id="cropTitle">Ajustar foto</h2>
+    <p class="modal-hint">Arrastre la foto con el dedo o el ratón para moverla. Use <b>+</b> y <b>−</b> para acercar o alejar.</p>
+    <div class="crop-stage" id="cropStage" tabindex="0" aria-label="Foto. Use las flechas del teclado para moverla.">
+      <img class="crop-ghost" id="cropGhost" alt="" hidden>
+      <div class="crop-box round" id="cropBox"></div>
+    </div>
+    <div class="zoom-row">
+      <button type="button" class="zoom-btn" id="zoomOut" aria-label="Alejar">−</button>
+      <input type="range" id="zoomRange" min="1" max="4" step="0.01" value="1" aria-label="Acercar o alejar">
+      <button type="button" class="zoom-btn" id="zoomMore" aria-label="Acercar">+</button>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-small" id="cropChange">Cambiar foto</button>
+      <button type="button" class="btn btn-small" id="cropReset">Centrar</button>
+      <button type="button" class="btn-link danger-link" id="cropRemove">Quitar foto</button>
+    </div>
+    <button type="button" class="btn btn-secondary btn-big" id="cropDone">Listo</button>
+  </div>
+</div>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle" hidden>
+  <div class="viewer-bar">
+    <p class="viewer-title" id="viewerTitle"></p>
+    <button type="button" class="btn viewer-close" id="viewerClose">Cerrar ✕</button>
+  </div>
+  <div class="viewer-scroll" id="viewerScroll">
+    <div class="viewer-size" id="viewerSize"><div class="scale-in" id="viewerIn"></div></div>
+  </div>
+  <div class="viewer-tools">
+    <button type="button" class="zoom-btn" id="vPrev" aria-label="Imagen anterior">‹</button>
+    <button type="button" class="zoom-btn" id="vOut" aria-label="Alejar">−</button>
+    <button type="button" class="btn btn-small" id="vFit">Ver completa</button>
+    <button type="button" class="zoom-btn" id="vIn" aria-label="Acercar">+</button>
+    <button type="button" class="zoom-btn" id="vNext" aria-label="Imagen siguiente">›</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<input type="file" id="filePick" accept="image/*" hidden>
+<input type="file" id="backupPick" accept="application/json,.json" hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
